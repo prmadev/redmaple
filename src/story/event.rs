@@ -3,10 +3,9 @@ mod content_deleted;
 mod content_moded;
 mod content_published;
 mod created;
-use super::{
-    id::ID,
-    store::{ApplyError, EventStore, StateStore},
-};
+use crate::store::{ApplyError, EventStore, StateStore};
+
+use super::id::ID;
 use std::fmt::Debug;
 
 /*

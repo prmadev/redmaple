@@ -1,6 +1,8 @@
 use std::fmt::Debug;
 
-use super::{id::ID, store::EventStore};
+use crate::store::EventStore;
+
+use super::id::ID;
 
 pub struct ExistingContentID {
     id: ID,

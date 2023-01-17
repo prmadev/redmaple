@@ -1,4 +1,4 @@
-use crate::story::{id::ID, ExistingStoryID};
+use crate::story::id::ID;
 
 /// Creates a new instance of Story
 #[derive(Debug)]

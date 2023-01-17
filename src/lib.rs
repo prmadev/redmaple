@@ -1,5 +1,7 @@
 #[warn(clippy::pedantic)]
-mod story;
+pub mod store;
+#[warn(clippy::pedantic)]
+pub mod story;
 
 #[cfg(test)]
 mod tests {

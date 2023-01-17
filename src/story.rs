@@ -1,9 +1,8 @@
 mod content;
-mod event;
-mod id;
-mod store;
-
-use self::{id::ID, store::EventStore};
+pub mod event;
+pub mod id;
+use self::id::ID;
+use crate::store::EventStore;
 use std::fmt::Debug;
 
 pub struct Story {
