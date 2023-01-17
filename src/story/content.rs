@@ -4,19 +4,9 @@ use crate::store::EventStore;
 
 use super::id::ID;
 
+#[derive(Clone, Debug)]
 pub struct ExistingContentID {
     id: ID,
-    // store is here to confirm that the existing content lives long enough
-    _store: Box<dyn EventStore>,
-}
-
-impl Debug for ExistingContentID {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("ExistingContentID")
-            .field("id", &self.id)
-            // .field("store", &self.store.)
-            .finish()
-    }
 }
 
 impl ExistingContentID {
@@ -28,14 +18,14 @@ impl ExistingContentID {
     /// * `store`: generic over ContentDataBase which lives more than the store
     pub fn build(id: ID, store: Box<dyn EventStore>) -> Result<Self, IDError> {
         match store.id_exists(&id) {
-            true => Ok(Self { id, _store: store }),
+            true => Ok(Self { id }),
             false => Err(IDError::NotFound),
         }
     }
 }
 
-#[derive(Debug)]
 /// Content type sets the mode of each content.
+#[derive(Debug, Clone)]
 pub enum ContentMode {
     /// the main post of the story
     HeadPost,
@@ -44,13 +34,13 @@ pub enum ContentMode {
     Edition,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Content {
     Text,
     Picture,
 }
 
-#[derive(Debug, thiserror::Error)]
+#[derive(Debug, thiserror::Error, Clone)]
 pub enum IDError {
     #[error("Could Not be found")]
     NotFound,

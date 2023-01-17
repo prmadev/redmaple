@@ -1,7 +1,7 @@
 use crate::story::{content::Content, id::ID, ExistingStoryID};
 
 /// Adds Content to that story
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ContentAdded {
     id: ID,
     story_id: ExistingStoryID,

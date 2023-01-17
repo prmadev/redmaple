@@ -2,7 +2,7 @@ use std::fmt::Debug;
 
 use uuid::Uuid;
 
-#[derive(Default, Debug)]
+#[derive(Default, Debug, PartialEq, Clone)]
 pub struct ID(Uuid);
 impl ID {
     pub fn new() -> Self {

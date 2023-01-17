@@ -5,7 +5,7 @@ use crate::story::{
 };
 
 /// Changes the mode of a content
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ContentModed {
     id: ID,
     story_id: ExistingStoryID,
@@ -37,5 +37,9 @@ impl ContentModed {
 
     pub fn new_mod(&self) -> &ContentMode {
         &self.new_mod
+    }
+
+    pub fn id(&self) -> &ID {
+        &self.id
     }
 }

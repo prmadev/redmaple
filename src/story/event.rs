@@ -12,7 +12,7 @@ use std::fmt::Debug;
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░ Event
 */
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Event {
     Created(created::Created),
     ContentAdded(content_added::ContentAdded),
@@ -33,19 +33,10 @@ impl Event {
 */
 
 /// Creates an instance of an event the specified ID
+#[derive(Clone, Debug)]
 pub struct ExistingEventID {
     id: ID,
     // store is here to confirm that the existing content lives long enough
-    _store: Box<dyn EventStore>,
-}
-
-impl Debug for ExistingEventID {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("ExistingEventID")
-            .field("id", &self.id)
-            // .field("store", &self.store.)
-            .finish()
-    }
 }
 
 impl ExistingEventID {
@@ -57,13 +48,13 @@ impl ExistingEventID {
     /// * `store`: generic over ContentDataBase which lives more than the store
     pub fn build(id: ID, store: Box<dyn EventStore>) -> Result<Self, IDError> {
         match store.id_exists(&id) {
-            true => Ok(Self { id, _store: store }),
+            true => Ok(Self { id }),
             false => Err(IDError::NotFound),
         }
     }
 }
 
-#[derive(Debug, thiserror::Error)]
+#[derive(Debug, thiserror::Error, Clone)]
 pub enum IDError {
     #[error("Could Not be found")]
     NotFound,

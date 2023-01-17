@@ -1,7 +1,7 @@
 use crate::story::id::ID;
 
 /// Creates a new instance of Story
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Created {
     id: ID,
     story_id: ID,

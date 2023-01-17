@@ -1,7 +1,7 @@
 use crate::story::{content::ExistingContentID, id::ID, ExistingStoryID};
 
 /// Sets a Content as published
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ContentDeleted {
     id: ID,
     story_id: ExistingStoryID,
@@ -23,5 +23,9 @@ impl ContentDeleted {
 
     pub fn content(&self) -> &ExistingContentID {
         &self.content
+    }
+
+    pub fn id(&self) -> &ID {
+        &self.id
     }
 }
