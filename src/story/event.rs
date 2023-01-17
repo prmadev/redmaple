@@ -52,6 +52,10 @@ impl ExistingEventID {
             false => Err(IDError::NotFound),
         }
     }
+
+    pub fn id(&self) -> &ID {
+        &self.id
+    }
 }
 
 #[derive(Debug, thiserror::Error, Clone)]

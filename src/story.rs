@@ -1,7 +1,7 @@
 mod content;
 pub mod event;
 pub mod id;
-use self::id::ID;
+use self::{event::Event, id::ID};
 use crate::store::EventStore;
 use std::fmt::Debug;
 
@@ -10,6 +10,20 @@ pub struct Story {
     id: ID,
     view_mode: ViewMode,
     events: Vec<event::Event>,
+}
+
+impl Story {
+    pub fn view_mode(&self) -> &ViewMode {
+        &self.view_mode
+    }
+
+    pub fn id(&self) -> &ID {
+        &self.id
+    }
+
+    pub fn events(&self) -> &[Event] {
+        self.events.as_ref()
+    }
 }
 
 #[derive(Clone, Debug)]
@@ -45,6 +59,10 @@ impl ExistingStoryID {
             true => Ok(Self { id }),
             false => Err(IDError::NotFound),
         }
+    }
+
+    pub fn id(&self) -> &ID {
+        &self.id
     }
 }
 

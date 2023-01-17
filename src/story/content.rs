@@ -22,6 +22,10 @@ impl ExistingContentID {
             false => Err(IDError::NotFound),
         }
     }
+
+    pub fn id(&self) -> &ID {
+        &self.id
+    }
 }
 
 /// Content type sets the mode of each content.
