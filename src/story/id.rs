@@ -1,6 +1,11 @@
+use std::fmt::Debug;
+
 use uuid::Uuid;
 
-use super::ExistingStoryID;
-
-#[derive(Default)]
+#[derive(Default, Debug)]
 pub struct ID(Uuid);
+impl ID {
+    pub fn new() -> Self {
+        Self(Uuid::new_v4())
+    }
+}

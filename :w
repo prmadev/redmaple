@@ -1,12 +1,11 @@
-mod content_added;
-mod content_deleted;
-mod content_moded;
-mod content_published;
 mod created;
 use super::{
+    content::{Content, ContentMode, ExistingContentID},
     id::ID,
-    store::{ApplyError, EventStore, StateStore},
+    store::Store,
+    ExistingStoryID,
 };
+use created::*;
 use std::fmt::Debug;
 
 /*
@@ -15,18 +14,44 @@ use std::fmt::Debug;
 
 #[derive(Debug)]
 pub enum Event {
-    Created(created::Created),
-    ContentAdded(content_added::ContentAdded),
-    ContentPublished(content_published::ContentPublished),
-    ContentModed(content_moded::ContentModed),
-    ContentDeleted(content_deleted::ContentDeleted),
+    Created(Created),
+    ContentAdded(ContentAdded),
+    ContentPublished(ContentPublished),
+    ContentModed(ContentModed),
+    ContentDeleted,
+    EventDeleted,
 }
 
-impl Event {
-    /// this is is just for the sake of ergonomics to use instead of store.apply(event)
-    pub fn apply(&self, store: Box<dyn StateStore>) -> Result<(), ApplyError> {
-        store.apply(self)
-    }
+/// Adds Content to that story
+#[derive(Debug)]
+pub struct ContentAdded {
+    id: ID,
+    story_id: ExistingStoryID,
+    content: Content,
+}
+
+/// Sets a Content as published
+#[derive(Debug)]
+pub struct ContentPublished {
+    id: ID,
+    story_id: ExistingStoryID,
+    content: ExistingContentID,
+}
+
+/// Changes the mode of a content
+#[derive(Debug)]
+pub struct ContentModed {
+    id: ID,
+    story_id: ExistingStoryID,
+    content: ExistingContentID,
+    new_mod: ContentMode,
+}
+
+#[derive(Debug)]
+pub struct ContentDeleted {
+    id: ID,
+    story_id: ExistingStoryID,
+    content: ExistingContentID,
 }
 
 /*
@@ -37,7 +62,7 @@ impl Event {
 pub struct ExistingEventID {
     id: ID,
     // store is here to confirm that the existing content lives long enough
-    _store: Box<dyn EventStore>,
+    _store: Box<dyn Store>,
 }
 
 impl Debug for ExistingEventID {
@@ -56,7 +81,7 @@ impl ExistingEventID {
     ///
     /// * `id`: ID
     /// * `store`: generic over ContentDataBase which lives more than the store
-    pub fn build(id: ID, store: Box<dyn EventStore>) -> Result<Self, IDError> {
+    pub fn build(id: ID, store: Box<dyn Store>) -> Result<Self, IDError> {
         match store.id_exists(&id) {
             true => Ok(Self { id, _store: store }),
             false => Err(IDError::NotFound),

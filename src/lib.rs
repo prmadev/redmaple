@@ -1,8 +1,6 @@
 #[warn(clippy::pedantic)]
 mod story;
 
-use uuid::Uuid;
-
 #[cfg(test)]
 mod tests {
     use super::*;
