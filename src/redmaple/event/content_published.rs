@@ -1,15 +1,15 @@
-use crate::redmaple::{content::ExistingContentID, id::ID, ExistingStoryID};
+use crate::redmaple::{content::ExistingContentID, id::ID, ExistingRedMapleID};
 
 /// Sets a Content as published
 #[derive(Debug, Clone)]
 pub struct ContentPublished {
     id: ID,
-    redmaple_id: ExistingStoryID,
+    redmaple_id: ExistingRedMapleID,
     content: ExistingContentID,
 }
 
 impl ContentPublished {
-    pub fn new(redmaple_id: ExistingStoryID, content: ExistingContentID) -> Self {
+    pub fn new(redmaple_id: ExistingRedMapleID, content: ExistingContentID) -> Self {
         Self {
             id: ID::new(),
             redmaple_id,
@@ -17,7 +17,7 @@ impl ContentPublished {
         }
     }
 
-    pub fn redmaple_id(&self) -> &ExistingStoryID {
+    pub fn redmaple_id(&self) -> &ExistingRedMapleID {
         &self.redmaple_id
     }
 

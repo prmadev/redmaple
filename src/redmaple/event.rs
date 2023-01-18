@@ -12,12 +12,18 @@ use std::fmt::Debug;
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░ Event
 */
 
+/// Event hold all the events that could happened to a RedMaple
 #[derive(Debug, Clone)]
 pub enum Event {
+    /// States that a RedMaple is created
     Created(created::Created),
+    /// When a content is added. It does not neccessarily means that it is published
     ContentAdded(content_added::ContentAdded),
+    /// Happens When a content is visible by all those that can view the RedMaple
     ContentPublished(content_published::ContentPublished),
+    /// Happens when the view mod of the post changes
     ContentModed(content_moded::ContentModed),
+    /// Happens when the content is no longer visible
     ContentDeleted(content_deleted::ContentDeleted),
 }
 
@@ -36,7 +42,6 @@ impl Event {
 #[derive(Clone, Debug)]
 pub struct ExistingEventID {
     id: ID,
-    // store is here to confirm that the existing content lives long enough
 }
 
 impl ExistingEventID {
@@ -53,13 +58,16 @@ impl ExistingEventID {
         }
     }
 
+    /// Gets the ID inside the ExistingEventID
     pub fn id(&self) -> &ID {
         &self.id
     }
 }
 
+/// Errors that relate to validating an ID's existence
 #[derive(Debug, thiserror::Error, Clone)]
 pub enum IDError {
+    /// Error that means that the ID could not be associated with any entity
     #[error("Could Not be found")]
     NotFound,
 }

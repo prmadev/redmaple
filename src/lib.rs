@@ -5,9 +5,15 @@
 //! So please, do not use it for now. Version numbering will tell you if things got stabilised.
 //!
 
-#[warn(clippy::pedantic)]
+#![warn(clippy::pedantic)]
+// #![warn(clippy::restriction)]
+#![deny(missing_docs)]
+#![warn(rust_2018_idioms)]
+#![cfg_attr(docsrs, feature(doc_cfg))]
+
+/// redmaple is the central data-structure that is underlying the whole crate
 pub mod redmaple;
-#[warn(clippy::pedantic)]
+/// store module holds the persistence and stateful storage abstractions to work with this crate
 pub mod store;
 
 #[cfg(test)]

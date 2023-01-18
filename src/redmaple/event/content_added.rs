@@ -1,15 +1,16 @@
-use crate::redmaple::{content::Content, id::ID, ExistingStoryID};
+use crate::redmaple::{content::Content, id::ID, ExistingRedMapleID};
 
 /// Adds Content to that redmaple
 #[derive(Debug, Clone)]
 pub struct ContentAdded {
     id: ID,
-    redmaple_id: ExistingStoryID,
+    redmaple_id: ExistingRedMapleID,
     content: Content,
 }
 
 impl ContentAdded {
-    pub fn new(redmaple_id: ExistingStoryID, content: Content) -> Self {
+    /// Creates an event that states that some content has been added to an existing RedMaple.
+    pub fn new(redmaple_id: ExistingRedMapleID, content: Content) -> Self {
         Self {
             id: ID::new(),
             redmaple_id,
@@ -17,14 +18,17 @@ impl ContentAdded {
         }
     }
 
+    /// Gets the ID of the entity
     pub fn id(&self) -> &ID {
         &self.id
     }
 
-    pub fn redmaple_id(&self) -> &ExistingStoryID {
+    /// Gets the ID of the redmaple that holds this event
+    pub fn redmaple_id(&self) -> &ExistingRedMapleID {
         &self.redmaple_id
     }
 
+    /// Gets the inner content that is represented by this event
     pub fn content(&self) -> &Content {
         &self.content
     }

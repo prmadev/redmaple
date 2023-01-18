@@ -4,6 +4,9 @@ use crate::store::EventStore;
 
 use super::id::ID;
 
+/// An instance of ID that is guranteed to be pointed to an existing Content
+///
+/// * `id`: holds an instance of ID
 #[derive(Clone, Debug)]
 pub struct ExistingContentID {
     id: ID,
@@ -23,6 +26,7 @@ impl ExistingContentID {
         }
     }
 
+    /// Gets the ID inside the ExistingRedMapleID
     pub fn id(&self) -> &ID {
         &self.id
     }
@@ -31,21 +35,27 @@ impl ExistingContentID {
 /// Content type sets the mode of each content.
 #[derive(Debug, Clone)]
 pub enum ContentMode {
-    /// the main post of the redmaple
+    /// The main post of the redmaple
     HeadPost,
-    /// answer the redmaple, or optionally, answer to another content of the same redmaple
+    /// Answer the redmaple, or optionally, answer to another content of the same redmaple
     Conversation(Option<ExistingContentID>),
+    /// A new edition for the headpost
     Edition,
 }
 
+/// Content holds the different forms of content
 #[derive(Debug, Clone)]
 pub enum Content {
+    /// A Text content is a string.
     Text,
+    /// A Text content is a subscription to a picture stream.
     Picture,
 }
 
+/// Errors that relate to validating an ID's existence
 #[derive(Debug, thiserror::Error, Clone)]
 pub enum IDError {
+    /// Error that means that the ID could not be associated with any entity
     #[error("Could Not be found")]
     NotFound,
 }
