@@ -1,6 +1,6 @@
 mod content;
 use self::{event::Event, id::ID};
-use crate::store::EventStore;
+use crate::store::EventStorage;
 use std::fmt::Debug;
 
 /// event module holds the types and functions that events could take and the operations that they
@@ -23,17 +23,20 @@ pub struct RedMaple {
 
 impl RedMaple {
     /// Gets the view mode of the `RedMaple`
-    #[must_use] pub fn view_mode(&self) -> &ViewMode {
+    #[must_use]
+    pub fn view_mode(&self) -> &ViewMode {
         &self.view_mode
     }
 
     /// Gets the ID of the `RedMaple`
-    #[must_use] pub fn id(&self) -> &ID {
+    #[must_use]
+    pub fn id(&self) -> &ID {
         &self.id
     }
 
     /// Gets an array of the events of the `RedMaple`
-    #[must_use] pub fn events(&self) -> &[Event] {
+    #[must_use]
+    pub fn events(&self) -> &[Event] {
         self.events.as_ref()
     }
 }
@@ -83,15 +86,21 @@ impl ExistingRedMapleID {
     ///
     /// * `id`: ID
     /// * `store`: generic over `ContentDataBase` which lives more than the store
-    pub fn build(id: ID, store: Box<dyn EventStore>) -> Result<Self, IDError> {
-        match store.id_exists(&id) {
-            true => Ok(Self { id }),
-            false => Err(IDError::NotFound),
+    ///
+    /// # Errors
+    ///
+    /// This function should return errors that the given ID could not be found
+    pub fn build(id: ID, store: &dyn EventStorage) -> Result<Self, IDError> {
+        if store.id_exists(&id) {
+            Ok(Self { id })
+        } else {
+            Err(IDError::NotFound)
         }
     }
 
     /// Gets the ID inside the `ExistingRedMapleID`
-    #[must_use] pub fn id(&self) -> &ID {
+    #[must_use]
+    pub fn id(&self) -> &ID {
         &self.id
     }
 }

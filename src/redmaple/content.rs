@@ -1,6 +1,6 @@
 use std::fmt::Debug;
 
-use crate::store::EventStore;
+use crate::store::EventStorage;
 
 use super::id::ID;
 
@@ -19,10 +19,15 @@ impl ExistingContentID {
     ///
     /// * `id`: ID
     /// * `store`: generic over `ContentDataBase` which lives more than the store
-    pub fn build(id: ID, store: Box<dyn EventStore>) -> Result<Self, IDError> {
-        match store.id_exists(&id) {
-            true => Ok(Self { id }),
-            false => Err(IDError::NotFound),
+    ///
+    /// # Errors
+    ///
+    /// This function should return errors that the given ID could not be found
+    pub fn build(id: ID, store: &dyn EventStorage) -> Result<Self, IDError> {
+        if store.id_exists(&id) {
+            Ok(Self { id })
+        } else {
+            Err(IDError::NotFound)
         }
     }
 
@@ -34,7 +39,7 @@ impl ExistingContentID {
 
 /// Content type sets the mode of each content.
 #[derive(Debug, Clone)]
-pub enum ContentMode {
+pub enum Mode {
     /// The main post of the redmaple
     HeadPost,
     /// Answer the redmaple, or optionally, answer to another content of the same redmaple

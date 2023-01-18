@@ -1,5 +1,5 @@
 use crate::redmaple::{
-    content::{ContentMode, ExistingContentID},
+    content::{ExistingContentID, Mode},
     id::ID,
     ExistingRedMapleID,
 };
@@ -10,16 +10,12 @@ pub struct ContentModed {
     id: ID,
     redmaple_id: ExistingRedMapleID,
     content: ExistingContentID,
-    new_mod: ContentMode,
+    new_mod: Mode,
 }
 
 impl ContentModed {
     /// Creates an event that states that some content has changed their mod to a given one.
-    pub fn new(
-        redmaple_id: ExistingRedMapleID,
-        content: ExistingContentID,
-        new_mod: ContentMode,
-    ) -> Self {
+    pub fn new(redmaple_id: ExistingRedMapleID, content: ExistingContentID, new_mod: Mode) -> Self {
         Self {
             id: ID::new(),
             redmaple_id,
@@ -44,7 +40,7 @@ impl ContentModed {
     }
 
     /// return the new mode that this event makes
-    pub fn new_mod(&self) -> &ContentMode {
+    pub fn new_mod(&self) -> &Mode {
         &self.new_mod
     }
 }

@@ -3,14 +3,10 @@ mod content_deleted;
 mod content_moded;
 mod content_published;
 mod created;
-use crate::store::{ApplyError, EventStore, StateStore};
+use crate::store::{ApplyError, EventStorage, StateStorage};
 
 use super::id::ID;
 use std::fmt::Debug;
-
-/*
-░░░░░░░░░░░░░░░░░░░░░░░░░░░ Event
-*/
 
 /// Event hold all the events that could happened to a `RedMaple`
 #[derive(Debug, Clone)]
@@ -29,14 +25,14 @@ pub enum Event {
 
 impl Event {
     /// this is is just for the sake of ergonomics to use instead of store.apply(event)
-    pub fn apply(&self, store: Box<dyn StateStore>) -> Result<(), ApplyError> {
+    ///
+    /// # Errors
+    ///
+    /// This function should return errors that means for some reasons state could not be changed
+    pub fn apply(&self, store: &dyn StateStorage) -> Result<(), ApplyError> {
         store.apply(self)
     }
 }
-
-/*
-░░░░░░░░░░░░░░░░░░░░░░░░░░░ ID
-*/
 
 /// Creates an instance of an event the specified ID
 #[derive(Clone, Debug)]
@@ -51,10 +47,15 @@ impl ExistingEventID {
     ///
     /// * `id`: ID
     /// * `store`: generic over `ContentDataBase` which lives more than the store
-    pub fn build(id: ID, store: Box<dyn EventStore>) -> Result<Self, IDError> {
-        match store.id_exists(&id) {
-            true => Ok(Self { id }),
-            false => Err(IDError::NotFound),
+    ///
+    /// # Errors
+    ///
+    /// This function should return errors that the given ID could not be found
+    pub fn build(id: ID, store: &dyn EventStorage) -> Result<Self, IDError> {
+        if store.id_exists(&id) {
+            Ok(Self { id })
+        } else {
+            Err(IDError::NotFound)
         }
     }
 
