@@ -1,3 +1,5 @@
+# Red Maple
+
 <!-- cargo-rdme start -->
 
 RedMaple offers an oppinionated yet extremely flexible data modeling system based on events for backend applications
