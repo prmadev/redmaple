@@ -1,4 +1,4 @@
-use crate::story::{
+use crate::redmaple::{
     content::{ContentMode, ExistingContentID},
     id::ID,
     ExistingStoryID,
@@ -8,27 +8,27 @@ use crate::story::{
 #[derive(Debug, Clone)]
 pub struct ContentModed {
     id: ID,
-    story_id: ExistingStoryID,
+    redmaple_id: ExistingStoryID,
     content: ExistingContentID,
     new_mod: ContentMode,
 }
 
 impl ContentModed {
     pub fn new(
-        story_id: ExistingStoryID,
+        redmaple_id: ExistingStoryID,
         content: ExistingContentID,
         new_mod: ContentMode,
     ) -> Self {
         Self {
             id: ID::new(),
-            story_id,
+            redmaple_id,
             content,
             new_mod,
         }
     }
 
-    pub fn story_id(&self) -> &ExistingStoryID {
-        &self.story_id
+    pub fn redmaple_id(&self) -> &ExistingStoryID {
+        &self.redmaple_id
     }
 
     pub fn content(&self) -> &ExistingContentID {

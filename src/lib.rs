@@ -1,14 +1,14 @@
 #[warn(clippy::pedantic)]
-pub mod store;
+pub mod redmaple;
 #[warn(clippy::pedantic)]
-pub mod story;
+pub mod store;
 
 #[cfg(test)]
 mod tests {
 
     use crate::{
+        redmaple::{event::Event, id::ID},
         store::{FindError, SaveError},
-        story::{event::Event, id::ID},
     };
 
     use super::*;
@@ -24,7 +24,7 @@ mod tests {
     }
 
     impl store::EventStore for ES {
-        fn id_exists(&self, id: &story::id::ID) -> bool {
+        fn id_exists(&self, id: &redmaple::id::ID) -> bool {
             !self
                 .events
                 .iter()

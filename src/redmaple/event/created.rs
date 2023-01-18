@@ -1,17 +1,17 @@
-use crate::story::id::ID;
+use crate::redmaple::id::ID;
 
 /// Creates a new instance of Story
 #[derive(Debug, Clone)]
 pub struct Created {
     id: ID,
-    story_id: ID,
+    redmaple_id: ID,
 }
 
 impl Created {
-    pub fn new(story_id: ID) -> Self {
+    pub fn new(redmaple_id: ID) -> Self {
         Self {
             id: ID::new(),
-            story_id,
+            redmaple_id,
         }
     }
 
@@ -19,7 +19,7 @@ impl Created {
         &self.id
     }
 
-    pub fn story_id(&self) -> &ID {
-        &self.story_id
+    pub fn redmaple_id(&self) -> &ID {
+        &self.redmaple_id
     }
 }

@@ -1,4 +1,4 @@
-use crate::story::{event::Event, id::ID, Story};
+use crate::redmaple::{event::Event, id::ID, Story};
 
 /// this trait is an adaptor trait for the storage that holds the ID stuff that this package uses in order to validate and operate
 pub trait EventStore {

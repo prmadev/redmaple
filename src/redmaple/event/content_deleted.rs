@@ -1,24 +1,24 @@
-use crate::story::{content::ExistingContentID, id::ID, ExistingStoryID};
+use crate::redmaple::{content::ExistingContentID, id::ID, ExistingStoryID};
 
 /// Sets a Content as published
 #[derive(Debug, Clone)]
 pub struct ContentDeleted {
     id: ID,
-    story_id: ExistingStoryID,
+    redmaple_id: ExistingStoryID,
     content: ExistingContentID,
 }
 
 impl ContentDeleted {
-    pub fn new(story_id: ExistingStoryID, content: ExistingContentID) -> Self {
+    pub fn new(redmaple_id: ExistingStoryID, content: ExistingContentID) -> Self {
         Self {
             id: ID::new(),
-            story_id,
+            redmaple_id,
             content,
         }
     }
 
-    pub fn story_id(&self) -> &ExistingStoryID {
-        &self.story_id
+    pub fn redmaple_id(&self) -> &ExistingStoryID {
+        &self.redmaple_id
     }
 
     pub fn content(&self) -> &ExistingContentID {

@@ -31,9 +31,9 @@ impl ExistingContentID {
 /// Content type sets the mode of each content.
 #[derive(Debug, Clone)]
 pub enum ContentMode {
-    /// the main post of the story
+    /// the main post of the redmaple
     HeadPost,
-    /// answer the story, or optionally, answer to another content of the same story
+    /// answer the redmaple, or optionally, answer to another content of the same redmaple
     Conversation(Option<ExistingContentID>),
     Edition,
 }

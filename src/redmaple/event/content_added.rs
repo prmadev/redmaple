@@ -1,18 +1,18 @@
-use crate::story::{content::Content, id::ID, ExistingStoryID};
+use crate::redmaple::{content::Content, id::ID, ExistingStoryID};
 
-/// Adds Content to that story
+/// Adds Content to that redmaple
 #[derive(Debug, Clone)]
 pub struct ContentAdded {
     id: ID,
-    story_id: ExistingStoryID,
+    redmaple_id: ExistingStoryID,
     content: Content,
 }
 
 impl ContentAdded {
-    pub fn new(story_id: ExistingStoryID, content: Content) -> Self {
+    pub fn new(redmaple_id: ExistingStoryID, content: Content) -> Self {
         Self {
             id: ID::new(),
-            story_id,
+            redmaple_id,
             content,
         }
     }
@@ -21,8 +21,8 @@ impl ContentAdded {
         &self.id
     }
 
-    pub fn story_id(&self) -> &ExistingStoryID {
-        &self.story_id
+    pub fn redmaple_id(&self) -> &ExistingStoryID {
+        &self.redmaple_id
     }
 
     pub fn content(&self) -> &Content {
