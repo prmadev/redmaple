@@ -36,7 +36,7 @@ mod tests {
         }
     }
 
-    impl store::EventStore for ES {
+    impl store::EventStorage for ES {
         fn id_exists(&self, id: &redmaple::id::ID) -> bool {
             self.events.iter().any(|x| match x {
                 Event::Created(e) => e.id() == id,
