@@ -1,6 +1,6 @@
-//! RedMaple offers an opinionated yet extremely flexible data modeling system based on events for backend applications
+//! `RedMaple` offers an opinionated yet extremely flexible data modeling system based on events for backend applications
 //!
-//! RedMaple is still in its infancy. And for now, at least, it is not fully formed.
+//! `RedMaple` is still in its infancy. And for now, at least, it is not fully formed.
 //! There is a 100 % certainty that if I can, I will strip away some items in it.
 //! So please, do not use it for now. Version numbering will tell you if things got stabilised.
 //!
@@ -38,17 +38,13 @@ mod tests {
 
     impl store::EventStore for ES {
         fn id_exists(&self, id: &redmaple::id::ID) -> bool {
-            !self
-                .events
-                .iter()
-                .find(|x| match x {
-                    Event::Created(e) => e.id() == id,
-                    Event::ContentAdded(e) => e.id() == id,
-                    Event::ContentPublished(e) => e.id() == id,
-                    Event::ContentModed(e) => e.id() == id,
-                    Event::ContentDeleted(e) => e.id() == id,
-                })
-                .is_some()
+            self.events.iter().any(|x| match x {
+                Event::Created(e) => e.id() == id,
+                Event::ContentAdded(e) => e.id() == id,
+                Event::ContentPublished(e) => e.id() == id,
+                Event::ContentModed(e) => e.id() == id,
+                Event::ContentDeleted(e) => e.id() == id,
+            })
         }
 
         fn add_event(&mut self, event: Event) -> Result<(), SaveError> {
@@ -61,7 +57,7 @@ mod tests {
             if e.is_empty() {
                 return None;
             };
-            return Some(e.to_vec());
+            Some(e.clone())
         }
 
         fn get_event(&self, id: &ID) -> Result<Event, store::FindError> {
@@ -76,7 +72,7 @@ mod tests {
                         Event::ContentDeleted(e) => e.id() == id,
                     })
                     .ok_or(FindError::NotFound)
-                    .map(|x| x.to_owned()),
+                    .map(std::clone::Clone::clone),
 
                 None => Err(FindError::NotFound),
             }

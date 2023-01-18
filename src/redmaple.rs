@@ -9,10 +9,10 @@ pub mod event;
 /// id module holds the implementation of ID type
 pub mod id;
 
-/// RedMaple is essentially a series of related events that form a state
+/// `RedMaple` is essentially a series of related events that form a state
 ///
 /// * `id`: of type ID
-/// * `view_mode`: an enum that holds set view mode of an RedMaple
+/// * `view_mode`: an enum that holds set view mode of an `RedMaple`
 /// * `events`: a list of entities that happened in time series
 #[derive(Debug, Clone)]
 pub struct RedMaple {
@@ -22,23 +22,23 @@ pub struct RedMaple {
 }
 
 impl RedMaple {
-    /// Gets the view mode of the RedMaple
-    pub fn view_mode(&self) -> &ViewMode {
+    /// Gets the view mode of the `RedMaple`
+    #[must_use] pub fn view_mode(&self) -> &ViewMode {
         &self.view_mode
     }
 
-    /// Gets the ID of the RedMaple
-    pub fn id(&self) -> &ID {
+    /// Gets the ID of the `RedMaple`
+    #[must_use] pub fn id(&self) -> &ID {
         &self.id
     }
 
-    /// Gets an array of the events of the RedMaple
-    pub fn events(&self) -> &[Event] {
+    /// Gets an array of the events of the `RedMaple`
+    #[must_use] pub fn events(&self) -> &[Event] {
         self.events.as_ref()
     }
 }
 
-/// An instance of ID that is guranteed to be pointed to an existing RedMaple
+/// An instance of ID that is guranteed to be pointed to an existing `RedMaple`
 ///
 /// * `id`: holds an instance of ID
 #[derive(Clone, Debug)]
@@ -46,7 +46,7 @@ pub struct ExistingRedMapleID {
     id: ID,
 }
 
-/// Holds the different view modes that the RedMaple could present
+/// Holds the different view modes that the `RedMaple` could present
 #[derive(Clone, Debug)]
 pub enum ViewMode {
     /// means one big post up, and editions for that post + comments and replies
@@ -82,7 +82,7 @@ impl ExistingRedMapleID {
     /// The lifetime of the this validated type should at least be as long as the store exists
     ///
     /// * `id`: ID
-    /// * `store`: generic over ContentDataBase which lives more than the store
+    /// * `store`: generic over `ContentDataBase` which lives more than the store
     pub fn build(id: ID, store: Box<dyn EventStore>) -> Result<Self, IDError> {
         match store.id_exists(&id) {
             true => Ok(Self { id }),
@@ -90,8 +90,8 @@ impl ExistingRedMapleID {
         }
     }
 
-    /// Gets the ID inside the ExistingRedMapleID
-    pub fn id(&self) -> &ID {
+    /// Gets the ID inside the `ExistingRedMapleID`
+    #[must_use] pub fn id(&self) -> &ID {
         &self.id
     }
 }

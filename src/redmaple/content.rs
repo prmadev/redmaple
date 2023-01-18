@@ -18,7 +18,7 @@ impl ExistingContentID {
     /// The lifetime of the this validated type should at least be as long as the store exists
     ///
     /// * `id`: ID
-    /// * `store`: generic over ContentDataBase which lives more than the store
+    /// * `store`: generic over `ContentDataBase` which lives more than the store
     pub fn build(id: ID, store: Box<dyn EventStore>) -> Result<Self, IDError> {
         match store.id_exists(&id) {
             true => Ok(Self { id }),
@@ -26,7 +26,7 @@ impl ExistingContentID {
         }
     }
 
-    /// Gets the ID inside the ExistingRedMapleID
+    /// Gets the ID inside the `ExistingRedMapleID`
     pub fn id(&self) -> &ID {
         &self.id
     }

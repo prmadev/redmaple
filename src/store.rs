@@ -4,7 +4,7 @@ use crate::redmaple::{event::Event, id::ID, RedMaple};
 pub trait EventStore {
     /// This function takes an id and checks if the id matches event with the same id.
     fn id_exists(&self, id: &ID) -> bool;
-    /// Adds an event to the EventStore.
+    /// Adds an event to the `EventStore`.
     fn add_event(&mut self, event: Event) -> Result<(), SaveError>;
     /// Retrieve all the events of a vector.
     fn get_events(&self) -> Option<Vec<Event>>;
@@ -36,7 +36,7 @@ pub trait StateStore {
     fn get_stories(&self) -> Option<Vec<RedMaple>>;
 }
 
-/// Errors that happened when applying an event to the StateStore
+/// Errors that happened when applying an event to the `StateStore`
 #[derive(Debug, thiserror::Error)]
 pub enum ApplyError {
     // #[error("Could Not be found")]

@@ -12,7 +12,7 @@ use std::fmt::Debug;
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░ Event
 */
 
-/// Event hold all the events that could happened to a RedMaple
+/// Event hold all the events that could happened to a `RedMaple`
 #[derive(Debug, Clone)]
 pub enum Event {
     /// States that a RedMaple is created
@@ -50,7 +50,7 @@ impl ExistingEventID {
     /// The lifetime of the this validated type should at least be as long as the store exists
     ///
     /// * `id`: ID
-    /// * `store`: generic over ContentDataBase which lives more than the store
+    /// * `store`: generic over `ContentDataBase` which lives more than the store
     pub fn build(id: ID, store: Box<dyn EventStore>) -> Result<Self, IDError> {
         match store.id_exists(&id) {
             true => Ok(Self { id }),
@@ -58,7 +58,8 @@ impl ExistingEventID {
         }
     }
 
-    /// Gets the ID inside the ExistingEventID
+    /// Gets the ID inside the `ExistingEventID`
+    #[must_use]
     pub fn id(&self) -> &ID {
         &self.id
     }

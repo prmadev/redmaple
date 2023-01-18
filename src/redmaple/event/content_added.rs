@@ -9,7 +9,7 @@ pub struct ContentAdded {
 }
 
 impl ContentAdded {
-    /// Creates an event that states that some content has been added to an existing RedMaple.
+    /// Creates an event that states that some content has been added to an existing `RedMaple`.
     pub fn new(redmaple_id: ExistingRedMapleID, content: Content) -> Self {
         Self {
             id: ID::new(),
