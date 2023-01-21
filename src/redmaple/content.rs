@@ -32,7 +32,7 @@ impl ExistingContentID {
     }
 
     /// Gets the ID inside the `ExistingRedMapleID`
-    pub fn id(&self) -> &ID {
+    pub const fn id(&self) -> &ID {
         &self.id
     }
 }

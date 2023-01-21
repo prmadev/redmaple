@@ -17,15 +17,15 @@ impl ContentPublished {
         }
     }
 
-    pub fn redmaple_id(&self) -> &ExistingRedMapleID {
+    pub const fn redmaple_id(&self) -> &ExistingRedMapleID {
         &self.redmaple_id
     }
 
-    pub fn content(&self) -> &ExistingContentID {
+    pub const fn content(&self) -> &ExistingContentID {
         &self.content
     }
 
-    pub fn id(&self) -> &ID {
+    pub const fn id(&self) -> &ID {
         &self.id
     }
 }

@@ -53,3 +53,18 @@ jobs:
         with:
           sarif_file: rust-clippy-results.sarif
           wait-for-processing: true
+    
+      
+      - uses: actions/checkout@v3
+      
+      - name: build
+        run: cargo build --verbose
+      
+      - name: test
+        run: cargo test --verbose
+
+      - name: Check if the README is up to date.
+        run: |
+               cargo install cargo-rdme
+               cargo rdme --check
+

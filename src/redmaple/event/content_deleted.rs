@@ -19,17 +19,17 @@ impl ContentDeleted {
     }
 
     /// Gets the ID of the entity
-    pub fn id(&self) -> &ID {
+    pub const fn id(&self) -> &ID {
         &self.id
     }
 
     /// Gets the ID of the redmaple that holds this event
-    pub fn redmaple_id(&self) -> &ExistingRedMapleID {
+    pub const fn redmaple_id(&self) -> &ExistingRedMapleID {
         &self.redmaple_id
     }
 
     /// Gets the inner content ID that this event is effecting on
-    pub fn content(&self) -> &ExistingContentID {
+    pub const fn content(&self) -> &ExistingContentID {
         &self.content
     }
 }
