@@ -25,13 +25,13 @@ pub struct RedMaple {
 impl RedMaple {
     /// Gets the view mode of the `RedMaple`
     #[must_use]
-    pub fn view_mode(&self) -> &ViewMode {
+    pub const fn view_mode(&self) -> &ViewMode {
         &self.view_mode
     }
 
     /// Gets the ID of the `RedMaple`
     #[must_use]
-    pub fn id(&self) -> &ID {
+    pub const fn id(&self) -> &ID {
         &self.id
     }
 
@@ -71,7 +71,7 @@ impl ExistingRedMapleID {
 
     /// Gets the ID inside the `ExistingRedMapleID`
     #[must_use]
-    pub fn id(&self) -> &ID {
+    pub const fn id(&self) -> &ID {
         &self.id
     }
 }

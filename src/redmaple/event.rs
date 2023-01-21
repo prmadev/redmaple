@@ -61,7 +61,7 @@ impl ExistingEventID {
 
     /// Gets the ID inside the `ExistingEventID`
     #[must_use]
-    pub fn id(&self) -> &ID {
+    pub const fn id(&self) -> &ID {
         &self.id
     }
 }

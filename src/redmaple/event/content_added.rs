@@ -19,17 +19,17 @@ impl ContentAdded {
     }
 
     /// Gets the ID of the entity
-    pub fn id(&self) -> &ID {
+    pub const fn id(&self) -> &ID {
         &self.id
     }
 
     /// Gets the ID of the redmaple that holds this event
-    pub fn redmaple_id(&self) -> &ExistingRedMapleID {
+    pub const fn redmaple_id(&self) -> &ExistingRedMapleID {
         &self.redmaple_id
     }
 
     /// Gets the inner content that is represented by this event
-    pub fn content(&self) -> &Content {
+    pub const fn content(&self) -> &Content {
         &self.content
     }
 }

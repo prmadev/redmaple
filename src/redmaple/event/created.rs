@@ -15,11 +15,11 @@ impl Created {
         }
     }
 
-    pub fn id(&self) -> &ID {
+    pub const fn id(&self) -> &ID {
         &self.id
     }
 
-    pub fn redmaple_id(&self) -> &ID {
+    pub const fn redmaple_id(&self) -> &ID {
         &self.redmaple_id
     }
 }
