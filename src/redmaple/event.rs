@@ -32,6 +32,18 @@ impl Event {
     pub fn apply(&self, store: &dyn StateStorage) -> Result<(), ApplyError> {
         store.apply(self)
     }
+
+    /// returns the a reference to the inner ID of the event
+    #[must_use]
+    pub const fn id(&self) -> &ID {
+        match *self {
+            Self::Created(ref e) => e.id(),
+            Self::ContentAdded(ref e) => e.id(),
+            Self::ContentPublished(ref e) => e.id(),
+            Self::ContentModed(ref e) => e.id(),
+            Self::ContentDeleted(ref e) => e.id(),
+        }
+    }
 }
 
 /// Creates an instance of an event the specified ID

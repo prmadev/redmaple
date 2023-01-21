@@ -61,13 +61,7 @@ mod tests {
 
     impl store::EventStorage for ES {
         fn id_exists(&self, id: &redmaple::id::ID) -> bool {
-            self.events.iter().any(|x| match *x {
-                Event::Created(ref e) => e.id() == id,
-                Event::ContentAdded(ref e) => e.id() == id,
-                Event::ContentPublished(ref e) => e.id() == id,
-                Event::ContentModed(ref e) => e.id() == id,
-                Event::ContentDeleted(ref e) => e.id() == id,
-            })
+            self.events.iter().any(|x| x.id() == id)
         }
 
         fn add_event(&mut self, event: Event) -> Result<(), SaveError> {
@@ -87,13 +81,7 @@ mod tests {
             match self.get_events() {
                 Some(i) => i
                     .iter()
-                    .find(|x| match **x {
-                        Event::Created(ref e) => e.id() == id,
-                        Event::ContentAdded(ref e) => e.id() == id,
-                        Event::ContentPublished(ref e) => e.id() == id,
-                        Event::ContentModed(ref e) => e.id() == id,
-                        Event::ContentDeleted(ref e) => e.id() == id,
-                    })
+                    .find(|x| x.id() == id)
                     .ok_or(FindError::NotFound)
                     .map(std::clone::Clone::clone),
 
