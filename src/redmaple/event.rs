@@ -2,8 +2,13 @@ mod content_added;
 mod content_deleted;
 mod content_moded;
 mod content_published;
-mod created;
-use crate::store::{ApplyError, EventStorage, StateStorage};
+pub mod created;
+use crate::{
+    store::{ApplyError, EventStorage, StateStorage},
+    view_mode::{BlogMode, ViewMode},
+};
+
+use self::created::Created;
 
 use super::id::ID;
 use std::fmt::Debug;
@@ -43,6 +48,12 @@ impl Event {
             Self::ContentModed(ref e) => e.id(),
             Self::ContentDeleted(ref e) => e.id(),
         }
+    }
+
+    /// creates a new create event that starts a new redmaple
+    #[must_use]
+    pub fn new_create_event() -> Self {
+        Self::Created(Created::new(ViewMode::Blog(BlogMode::Text), ID::new()))
     }
 }
 

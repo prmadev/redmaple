@@ -23,8 +23,19 @@ pub struct RedMaple {
 }
 
 impl RedMaple {
-    /// Gets the view mode of the `RedMaple`
+    /// creates a new instance of [`RedMaple`]
+    ///
+    /// * `view_mode`: sets the view mode of the redmaple
     #[must_use]
+    pub fn new(view_mode: ViewMode) -> Self {
+        let create_event = Event::new_create_event();
+        Self {
+            id: create_event.id().clone(),
+            view_mode,
+            events: vec![create_event],
+        }
+    }
+    /// Gets the view mode of the `RedMaple`
     pub const fn view_mode(&self) -> &ViewMode {
         &self.view_mode
     }

@@ -39,12 +39,13 @@ pub mod redmaple;
 pub mod store;
 pub mod view_mode;
 
+#[allow(clippy::panic)]
 #[cfg(test)]
 mod tests {
 
     use crate::{
         redmaple::{event::Event, id::ID},
-        store::{FindError, SaveError},
+        store::{EventStorage, FindError, SaveError},
     };
 
     use super::*;
@@ -92,6 +93,21 @@ mod tests {
 
     #[test]
     fn it_works() {
-        let _es = ES::new(vec![]);
+        let mut es = ES::new(vec![]);
+        let created_event = Event::new_create_event();
+
+        match es.add_event(created_event) {
+            Ok(_) => (),
+            Err(e) => panic!("could not add event: {e}"),
+        };
+        match es.get_events() {
+            Some(e) => {
+                if e.len().ne(&1) {
+                    panic!("event list should be 1 but instead is {}", e.len())
+                } else {
+                }
+            }
+            None => panic!("list is empty"),
+        };
     }
 }
