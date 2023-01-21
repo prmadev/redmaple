@@ -1,3 +1,4 @@
+//! store module holds the persistence and stateful storage abstractions to work with this crate
 use crate::redmaple::{event::Event, id::ID, RedMaple};
 
 /// This trait is an adaptor trait for the storage that holds the ID stuff that this package uses in order to validate and operate.
@@ -46,6 +47,7 @@ pub trait StateStorage {
     /// Apply applies the event to the current state and creates a new state
     ///
     /// # Errors
+    ///
     /// This function should return errors that shows the submited event could not consistenty
     /// change the state
     fn apply(&self, event: &Event) -> Result<(), ApplyError>;

@@ -11,10 +11,9 @@
 #![warn(rust_2018_idioms)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
-/// redmaple is the central data-structure that is underlying the whole crate
 pub mod redmaple;
-/// store module holds the persistence and stateful storage abstractions to work with this crate
 pub mod store;
+pub mod view_mode;
 
 #[cfg(test)]
 mod tests {
