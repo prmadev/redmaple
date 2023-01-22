@@ -1,7 +1,7 @@
 <h1 align="center">
 Red Maple
 </h1>
-<img align = "center" alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/amirography/redmaple/rust-clippy.yml?color=%233e8fb0&label=test&logo=Rust&logoColor=%23f6c177&style=for-the-badge">
+<img align="center" alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/amirography/redmaple/rust-clippy.yml?color=%233e8fb0&label=test&logo=Rust&logoColor=%23f6c177&style=for-the-badge">
 
 <p align="center">
 <img width="200" src="./assets/redmaple.gif" alt="a picture of a Red Maple in the style of a pixel art">
