@@ -39,6 +39,8 @@ impl RedMaple {
         }
     }
     /// Creates a new `RedMaple` using the given Create events
+    ///
+    /// * `created`: the Created info event
     #[must_use]
     pub fn from_create(created: &Created) -> Self {
         Self {
