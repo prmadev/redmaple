@@ -44,7 +44,7 @@ pub mod view_mode;
 mod tests {
 
     use crate::{
-        redmaple::{event::Event, id::ID},
+        redmaple::{event::Event, id::ID, RedMaple},
         store::{EventStorage, FindError, SaveError},
     };
 
@@ -89,6 +89,23 @@ mod tests {
                 None => Err(FindError::NotFound),
             }
         }
+
+        fn get_redmaples(&self) -> Option<Vec<redmaple::RedMaple>> {
+            match self.get_events() {
+                Some(ms) => Some(
+                    ms.iter()
+                        .filter_map(|x| match x {
+                            Event::Created(f) => {
+                                return Some(RedMaple::from_create(&f));
+                            }
+                            _ => None,
+                        })
+                        .collect::<Vec<redmaple::RedMaple>>(),
+                ),
+
+                None => return None,
+            }
+        }
     }
 
     #[test]
@@ -109,5 +126,9 @@ mod tests {
             }
             None => panic!("list is empty"),
         };
+        match es.get_redmaples() {
+            Some(f) => println!("{:#?}", f),
+            None => panic!("list is empty"),
+        }
     }
 }

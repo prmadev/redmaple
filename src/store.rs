@@ -24,6 +24,9 @@ pub trait EventStorage {
     /// This function should return errors that shows the for some reason event could not be
     /// accessed
     fn get_event(&self, id: &ID) -> Result<Event, FindError>;
+
+    /// Retrieve all the RedMaples in the database
+    fn get_redmaples(&self) -> Option<Vec<RedMaple>>;
 }
 
 /// Errors that could happened during adding of an event to the event store
