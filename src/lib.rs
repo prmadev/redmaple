@@ -21,7 +21,6 @@
     clippy::str_to_string,
     clippy::same_name_method,
     clippy::rc_buffer,
-    clippy::pattern_type_mismatch,
     clippy::panic_in_result_fn,
     clippy::multiple_inherent_impl,
     clippy::map_err_ignore,
