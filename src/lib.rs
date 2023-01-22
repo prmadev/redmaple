@@ -21,7 +21,6 @@
     clippy::str_to_string,
     clippy::same_name_method,
     clippy::rc_buffer,
-    clippy::pattern_type_mismatch,
     clippy::panic_in_result_fn,
     clippy::multiple_inherent_impl,
     clippy::map_err_ignore,
@@ -39,12 +38,13 @@ pub mod redmaple;
 pub mod store;
 pub mod view_mode;
 
+#[allow(clippy::panic)]
 #[cfg(test)]
 mod tests {
 
     use crate::{
-        redmaple::{event::Event, id::ID},
-        store::{FindError, SaveError},
+        redmaple::{event::Event, id::ID, RedMaple},
+        store::{EventStorage, FindError, SaveError},
     };
 
     use super::*;
@@ -61,13 +61,7 @@ mod tests {
 
     impl store::EventStorage for ES {
         fn id_exists(&self, id: &redmaple::id::ID) -> bool {
-            self.events.iter().any(|x| match *x {
-                Event::Created(ref e) => e.id() == id,
-                Event::ContentAdded(ref e) => e.id() == id,
-                Event::ContentPublished(ref e) => e.id() == id,
-                Event::ContentModed(ref e) => e.id() == id,
-                Event::ContentDeleted(ref e) => e.id() == id,
-            })
+            self.events.iter().any(|x| x.id() == id)
         }
 
         fn add_event(&mut self, event: Event) -> Result<(), SaveError> {
@@ -87,23 +81,47 @@ mod tests {
             match self.get_events() {
                 Some(i) => i
                     .iter()
-                    .find(|x| match **x {
-                        Event::Created(ref e) => e.id() == id,
-                        Event::ContentAdded(ref e) => e.id() == id,
-                        Event::ContentPublished(ref e) => e.id() == id,
-                        Event::ContentModed(ref e) => e.id() == id,
-                        Event::ContentDeleted(ref e) => e.id() == id,
-                    })
+                    .find(|x| x.id() == id)
                     .ok_or(FindError::NotFound)
                     .map(std::clone::Clone::clone),
 
                 None => Err(FindError::NotFound),
             }
         }
+
+        fn get_redmaples(&self) -> Option<Vec<redmaple::RedMaple>> {
+            self.get_events().map(|ms| {
+                ms.iter()
+                    .filter_map(|x| match &x {
+                        Event::Created(f) => Some(RedMaple::from_create(f)),
+                        _ => None,
+                    })
+                    .collect::<Vec<redmaple::RedMaple>>()
+            })
+        }
     }
 
     #[test]
     fn it_works() {
-        let _es = ES::new(vec![]);
+        let mut es = ES::new(vec![]);
+        let created_event = Event::new_create_event();
+
+        match es.add_event(created_event) {
+            Ok(_) => (),
+            Err(e) => panic!("could not add event: {e}"),
+        };
+        match es.get_events() {
+            Some(e) => {
+                if e.len().ne(&1) {
+                    panic!("event list should be 1 but instead is {}", e.len())
+                } else {
+                }
+            }
+            None => panic!("list is empty"),
+        };
+        match es.get_redmaples() {
+            Some(f) => println!("{:#?}", f),
+            None => panic!("list is empty"),
+        }
     }
 }

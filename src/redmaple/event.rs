@@ -2,8 +2,13 @@ mod content_added;
 mod content_deleted;
 mod content_moded;
 mod content_published;
-mod created;
-use crate::store::{ApplyError, EventStorage, StateStorage};
+pub mod created;
+use crate::{
+    store::{ApplyError, EventStorage, StateStorage},
+    view_mode::{BlogMode, ViewMode},
+};
+
+use self::created::Created;
 
 use super::id::ID;
 use std::fmt::Debug;
@@ -31,6 +36,24 @@ impl Event {
     /// This function should return errors that means for some reasons state could not be changed
     pub fn apply(&self, store: &dyn StateStorage) -> Result<(), ApplyError> {
         store.apply(self)
+    }
+
+    /// returns the a reference to the inner ID of the event
+    #[must_use]
+    pub const fn id(&self) -> &ID {
+        match *self {
+            Self::Created(ref e) => e.id(),
+            Self::ContentAdded(ref e) => e.id(),
+            Self::ContentPublished(ref e) => e.id(),
+            Self::ContentModed(ref e) => e.id(),
+            Self::ContentDeleted(ref e) => e.id(),
+        }
+    }
+
+    /// creates a new create event that starts a new redmaple
+    #[must_use]
+    pub fn new_create_event() -> Self {
+        Self::Created(Created::new(ViewMode::Blog(BlogMode::Text), ID::new()))
     }
 }
 

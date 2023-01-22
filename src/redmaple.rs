@@ -1,6 +1,9 @@
 //! redmaple is the central data-structure that is underlying the whole crate
 mod content;
-use self::{event::Event, id::ID};
+use self::{
+    event::{created::Created, Event},
+    id::ID,
+};
 use crate::{store::EventStorage, view_mode::ViewMode};
 use std::fmt::Debug;
 
@@ -23,8 +26,28 @@ pub struct RedMaple {
 }
 
 impl RedMaple {
-    /// Gets the view mode of the `RedMaple`
+    /// creates a new instance of [`RedMaple`]
+    ///
+    /// * `view_mode`: sets the view mode of the `RedMaple`
     #[must_use]
+    pub fn new(view_mode: ViewMode) -> Self {
+        let create_event = Event::new_create_event();
+        Self {
+            id: create_event.id().clone(),
+            view_mode,
+            events: vec![create_event],
+        }
+    }
+    /// Creates a new `RedMaple` using the given Create events
+    #[must_use]
+    pub fn from_create(created: &Created) -> Self {
+        Self {
+            id: created.redmaple_id().clone(),
+            view_mode: created.view_mode().clone(),
+            events: vec![Event::Created(created.clone())],
+        }
+    }
+    /// Gets the view mode of the `RedMaple`
     pub const fn view_mode(&self) -> &ViewMode {
         &self.view_mode
     }
