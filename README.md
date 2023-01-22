@@ -1,5 +1,5 @@
 <p align="center">
-<h1>
+<h1 align="center">
 Red Maple
 </h1>
 </p>
