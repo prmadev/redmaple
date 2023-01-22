@@ -91,20 +91,14 @@ mod tests {
         }
 
         fn get_redmaples(&self) -> Option<Vec<redmaple::RedMaple>> {
-            match self.get_events() {
-                Some(ms) => Some(
-                    ms.iter()
-                        .filter_map(|x| match x {
-                            Event::Created(f) => {
-                                return Some(RedMaple::from_create(&f));
-                            }
-                            _ => None,
-                        })
-                        .collect::<Vec<redmaple::RedMaple>>(),
-                ),
-
-                None => return None,
-            }
+            self.get_events().map(|ms| {
+                ms.iter()
+                    .filter_map(|x| match *x {
+                        Event::Created(ref f) => Some(RedMaple::from_create(f)),
+                        _ => None,
+                    })
+                    .collect::<Vec<redmaple::RedMaple>>()
+            })
         }
     }
 

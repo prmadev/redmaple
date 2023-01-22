@@ -1,5 +1,9 @@
 # Red Maple
 
+<p align="center">
+<img width="200" src="./assets/redmaple.gif" alt="a picture of a Red Maple in the style of a pixel art">
+</p>
+
 <!-- cargo-rdme start -->
 
 `RedMaple` offers an opinionated yet extremely flexible data modeling system based on events for backend applications

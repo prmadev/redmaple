@@ -25,7 +25,7 @@ pub trait EventStorage {
     /// accessed
     fn get_event(&self, id: &ID) -> Result<Event, FindError>;
 
-    /// Retrieve all the RedMaples in the database
+    /// Retrieve all the `RedMaples` in the database
     fn get_redmaples(&self) -> Option<Vec<RedMaple>>;
 }
 
