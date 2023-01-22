@@ -1,4 +1,6 @@
+<p align="center">
 # Red Maple
+</p>
 
 <p align="center">
 <img width="200" src="./assets/redmaple.gif" alt="a picture of a Red Maple in the style of a pixel art">
