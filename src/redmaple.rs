@@ -28,7 +28,7 @@ pub struct RedMaple {
 impl RedMaple {
     /// creates a new instance of [`RedMaple`]
     ///
-    /// * `view_mode`: sets the view mode of the redmaple
+    /// * `view_mode`: sets the view mode of the `RedMaple`
     #[must_use]
     pub fn new(view_mode: ViewMode) -> Self {
         let create_event = Event::new_create_event();
@@ -38,12 +38,13 @@ impl RedMaple {
             events: vec![create_event],
         }
     }
-    /// Creates a new redmaple using the given Create events
+    /// Creates a new `RedMaple` using the given Create events
+    #[must_use]
     pub fn from_create(created: &Created) -> Self {
         Self {
-            id: created.redmaple_id().to_owned(),
-            view_mode: created.view_mode().to_owned(),
-            events: vec![Event::Created(created.to_owned())],
+            id: created.redmaple_id().clone(),
+            view_mode: created.view_mode().clone(),
+            events: vec![Event::Created(created.clone())],
         }
     }
     /// Gets the view mode of the `RedMaple`

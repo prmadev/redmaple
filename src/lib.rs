@@ -21,7 +21,6 @@
     clippy::str_to_string,
     clippy::same_name_method,
     clippy::rc_buffer,
-    clippy::pattern_type_mismatch,
     clippy::panic_in_result_fn,
     clippy::multiple_inherent_impl,
     clippy::map_err_ignore,
@@ -91,20 +90,14 @@ mod tests {
         }
 
         fn get_redmaples(&self) -> Option<Vec<redmaple::RedMaple>> {
-            match self.get_events() {
-                Some(ms) => Some(
-                    ms.iter()
-                        .filter_map(|x| match x {
-                            Event::Created(f) => {
-                                return Some(RedMaple::from_create(&f));
-                            }
-                            _ => None,
-                        })
-                        .collect::<Vec<redmaple::RedMaple>>(),
-                ),
-
-                None => return None,
-            }
+            self.get_events().map(|ms| {
+                ms.iter()
+                    .filter_map(|x| match &x {
+                        Event::Created(f) => Some(RedMaple::from_create(f)),
+                        _ => None,
+                    })
+                    .collect::<Vec<redmaple::RedMaple>>()
+            })
         }
     }
 
