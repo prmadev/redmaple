@@ -1,5 +1,7 @@
 <p align="center">
-# Red Maple
+<h1>
+Red Maple
+</h1>
 </p>
 
 <p align="center">
