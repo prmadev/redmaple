@@ -1,8 +1,6 @@
-<p align="center">
 <h1 align="center">
 Red Maple
 </h1>
-</p>
 
 <p align="center">
 <img width="200" src="./assets/redmaple.gif" alt="a picture of a Red Maple in the style of a pixel art">
