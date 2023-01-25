@@ -29,6 +29,11 @@ impl Created {
         }
     }
 
+    /// returns the view mode of the parent redmaple
+    pub const fn view_mode(&self) -> &ViewMode {
+        &self.view_mode
+    }
+
     /// returns the id of event
     #[must_use]
     pub const fn id(&self) -> &ID {
@@ -41,10 +46,12 @@ impl Created {
         &self.redmaple_id
     }
 
-    /// returns the view mode of the parent redmaple
-    pub const fn view_mode(&self) -> &ViewMode {
-        &self.view_mode
-    }
+    // pub fn apply(
+    //     &self,
+    //     store: &dyn crate::store::StateStorage<>,
+    // ) -> Result<(), crate::store::ApplyError> {
+    //     store.apply(self)
+    // }
 }
 
 #[cfg(test)]
