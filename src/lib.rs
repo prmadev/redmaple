@@ -96,6 +96,7 @@ mod tests {
                 ms.iter()
                     .filter_map(|x| match &x {
                         Argument::Created(f) => Some(RedMaple::new(f.view_mode(), f.id())),
+
                         _ => None,
                     })
                     .collect::<Vec<redmaple::RedMaple<Argument>>>()
