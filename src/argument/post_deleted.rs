@@ -1,20 +1,22 @@
-use crate::redmaple::{content::ExistingContentID, id::ID, ExistingRedMapleID};
+use crate::redmaple::{id::ID, RedMaple};
+
+use super::{post::Post, Argument};
 
 /// Sets a Content as published
 #[derive(Debug, Clone)]
-pub struct ContentDeleted {
+pub struct PostDeleted {
     id: ID,
-    redmaple_id: ExistingRedMapleID,
-    content: ExistingContentID,
+    redmaple_id: ID,
+    post_id: ID,
 }
 
-impl ContentDeleted {
+impl PostDeleted {
     /// Creates an event that states that some content has been deleted (invisible) to users.
-    pub fn new(redmaple_id: ExistingRedMapleID, content: ExistingContentID) -> Self {
+    pub fn new(red_maple: &RedMaple<Argument>, post: &Post) -> Self {
         Self {
             id: ID::new(),
-            redmaple_id,
-            content,
+            redmaple_id: red_maple.id().clone(),
+            post_id: post.id().clone(),
         }
     }
 
@@ -24,12 +26,12 @@ impl ContentDeleted {
     }
 
     /// Gets the ID of the redmaple that holds this event
-    pub const fn redmaple_id(&self) -> &ExistingRedMapleID {
+    pub const fn redmaple_id(&self) -> &ID {
         &self.redmaple_id
     }
 
     /// Gets the inner content ID that this event is effecting on
-    pub const fn content(&self) -> &ExistingContentID {
-        &self.content
+    pub const fn post_id(&self) -> &ID {
+        &self.post_id
     }
 }

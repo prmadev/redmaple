@@ -34,6 +34,7 @@
 )]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
+pub mod argument;
 pub mod redmaple;
 pub mod store;
 pub mod view_mode;
@@ -43,33 +44,34 @@ pub mod view_mode;
 mod tests {
 
     use crate::{
-        redmaple::{event::Event, id::ID, RedMaple},
+        argument::Argument,
+        redmaple::{event_group::EventGroup, id::ID, RedMaple},
         store::{EventStorage, FindError, SaveError},
     };
 
     use super::*;
 
     struct ES {
-        events: Vec<Event>,
+        events: Vec<Argument>,
     }
 
     impl ES {
-        fn new(events: Vec<Event>) -> Self {
+        fn new(events: Vec<Argument>) -> Self {
             Self { events }
         }
     }
 
-    impl store::EventStorage for ES {
+    impl store::EventStorage<Argument> for ES {
         fn id_exists(&self, id: &redmaple::id::ID) -> bool {
             self.events.iter().any(|x| x.id() == id)
         }
 
-        fn add_event(&mut self, event: Event) -> Result<(), SaveError> {
+        fn add_event(&mut self, event: Argument) -> Result<(), SaveError> {
             self.events.push(event);
             Ok(())
         }
 
-        fn get_events(&self) -> Option<Vec<Event>> {
+        fn get_events(&self) -> Option<Vec<Argument>> {
             let e = &self.events;
             if e.is_empty() {
                 return None;
@@ -77,7 +79,7 @@ mod tests {
             Some(e.clone())
         }
 
-        fn get_event(&self, id: &ID) -> Result<Event, store::FindError> {
+        fn get_event(&self, id: &ID) -> Result<Argument, store::FindError> {
             match self.get_events() {
                 Some(i) => i
                     .iter()
@@ -89,14 +91,14 @@ mod tests {
             }
         }
 
-        fn get_redmaples(&self) -> Option<Vec<redmaple::RedMaple>> {
+        fn get_redmaples(&self) -> Option<Vec<redmaple::RedMaple<Argument>>> {
             self.get_events().map(|ms| {
                 ms.iter()
                     .filter_map(|x| match &x {
-                        Event::Created(f) => Some(RedMaple::from_create(f)),
+                        Argument::Created(f) => Some(RedMaple::new(f.view_mode(), f.id())),
                         _ => None,
                     })
-                    .collect::<Vec<redmaple::RedMaple>>()
+                    .collect::<Vec<redmaple::RedMaple<Argument>>>()
             })
         }
     }
@@ -104,12 +106,14 @@ mod tests {
     #[test]
     fn it_works() {
         let mut es = ES::new(vec![]);
-        let created_event = Event::new_create_event();
+
+        let created_event = Argument::new_create_event();
 
         match es.add_event(created_event) {
             Ok(_) => (),
             Err(e) => panic!("could not add event: {e}"),
         };
+
         match es.get_events() {
             Some(e) => {
                 if e.len().ne(&1) {
@@ -119,6 +123,7 @@ mod tests {
             }
             None => panic!("list is empty"),
         };
+
         match es.get_redmaples() {
             Some(f) => println!("{:#?}", f),
             None => panic!("list is empty"),

@@ -1,25 +1,26 @@
-use crate::redmaple::{
-    content::{ExistingContentID, Mode},
-    id::ID,
-    ExistingRedMapleID,
+use crate::redmaple::{id::ID, RedMaple};
+
+use super::{
+    post::{Mode, Post},
+    Argument,
 };
 
 /// Changes the mode of a content
 #[derive(Debug, Clone)]
 pub struct ContentModed {
     id: ID,
-    redmaple_id: ExistingRedMapleID,
-    content: ExistingContentID,
+    redmaple_id: ID,
+    post_id: ID,
     new_mod: Mode,
 }
 
 impl ContentModed {
     /// Creates an event that states that some content has changed their mod to a given one.
-    pub fn new(redmaple_id: ExistingRedMapleID, content: ExistingContentID, new_mod: Mode) -> Self {
+    pub fn new(red_maple: &RedMaple<Argument>, post: &Post, new_mod: Mode) -> Self {
         Self {
             id: ID::new(),
-            redmaple_id,
-            content,
+            redmaple_id: red_maple.id().clone(),
+            post_id: post.id().clone(),
             new_mod,
         }
     }
@@ -30,13 +31,13 @@ impl ContentModed {
     }
 
     /// Gets the ID of the redmaple that holds this event
-    pub const fn redmaple_id(&self) -> &ExistingRedMapleID {
+    pub const fn redmaple_id(&self) -> &ID {
         &self.redmaple_id
     }
 
     /// Gets the inner content ID that this event is effecting on
-    pub const fn content(&self) -> &ExistingContentID {
-        &self.content
+    pub const fn post_id(&self) -> &ID {
+        &self.post_id
     }
 
     /// return the new mode that this event makes
