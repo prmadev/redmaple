@@ -1,6 +1,6 @@
 [package]
 name = "redmaple"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["Amir Alesheikh <amirhossein.alehseikh@gmail.com>"]
 description = "RedMaple offers an oppinionated yet extremely flexible data modeling system based on events for backend applications"
@@ -11,8 +11,6 @@ categories = ["data-structures"]
 keywords = ["data_model", "event-sourcing", "events"]
 readme = "README.md"
 
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 thiserror = "1.0.38"
