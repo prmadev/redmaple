@@ -15,18 +15,18 @@ pub mod id;
 /// * `view_mode`: an enum that holds set view mode of an `RedMaple`
 /// * `events`: a list of entities that happened in time series
 #[derive(Debug, Clone)]
-pub struct RedMaple<T: EventGroup + Sized> {
+pub struct RedMaple<T: EventGroup + Sized + Clone, V: ViewMode + Sized + Clone> {
     id: ID,
-    view_mode: ViewMode,
+    view_mode: V,
     events: Vec<T>,
 }
 
-impl<T: EventGroup + Sized> RedMaple<T> {
+impl<T: EventGroup + Sized + Clone, V: ViewMode + Sized + Clone> RedMaple<T, V> {
     /// creates a new instance of [`RedMaple`]
     ///
     /// * `view_mode`: sets the view mode of the `RedMaple`
     #[must_use]
-    pub fn new(view_mode: &ViewMode, id: &ID) -> Self {
+    pub fn new(view_mode: &V, id: &ID) -> Self {
         Self {
             id: id.clone(),
             view_mode: view_mode.clone(),
@@ -35,7 +35,7 @@ impl<T: EventGroup + Sized> RedMaple<T> {
     }
 
     /// Gets the view mode of the `RedMaple`
-    pub const fn view_mode(&self) -> &ViewMode {
+    pub const fn view_mode(&self) -> &V {
         &self.view_mode
     }
 

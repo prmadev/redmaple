@@ -11,12 +11,12 @@ name: rust-clippy analyze
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ "main" ]
+    branches: ["main"]
   schedule:
-    - cron: '44 16 * * 4'
+    - cron: "44 16 * * 4"
 
 jobs:
   rust-clippy-analyze:
@@ -42,29 +42,26 @@ jobs:
         run: cargo install clippy-sarif sarif-fmt
 
       - name: Run rust-clippy
-        run:
-          cargo clippy
+        run: cargo clippy
           --all-features
           --message-format=json | clippy-sarif | tee rust-clippy-results.sarif | sarif-fmt
         continue-on-error: true
 
       - name: Upload analysis results to GitHub
-        uses: github/codeql-action/upload-sarif@v1
+        uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: rust-clippy-results.sarif
           wait-for-processing: true
-    
-      
+
       - uses: actions/checkout@v3
-      
+
       - name: build
         run: cargo build --verbose
-      
+
       - name: test
         run: cargo test --verbose
 
       - name: Check if the README is up to date.
         run: |
-               cargo install cargo-rdme
-               cargo rdme --check
-
+          cargo install cargo-rdme
+          cargo rdme --check

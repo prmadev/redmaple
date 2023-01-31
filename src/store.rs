@@ -1,10 +1,14 @@
 //! store module holds the persistence and stateful storage abstractions to work with this crate
-use crate::redmaple::{event_group::EventGroup, id::ID, RedMaple};
+use crate::{
+    redmaple::{event_group::EventGroup, id::ID, RedMaple},
+    view_mode::ViewMode,
+};
 
 /// This trait is an adaptor trait for the storage that holds the ID stuff that this package uses in order to validate and operate.
-pub trait EventStorage<H>
+pub trait EventStorage<H, V>
 where
-    H: EventGroup + Sized,
+    H: EventGroup + Sized + Clone,
+    V: ViewMode + Sized + Clone,
 {
     /// This function takes an id and checks if the id matches event with the same id.
     fn id_exists(&self, id: &ID) -> bool;
@@ -29,7 +33,7 @@ where
     fn get_event(&self, id: &ID) -> Result<H, FindError>;
 
     /// Retrieve all the `RedMaples` in the database
-    fn get_redmaples(&self) -> Option<Vec<RedMaple<H>>>;
+    fn get_redmaples(&self) -> Option<Vec<RedMaple<H, V>>>;
 }
 
 /// Errors that could happened during adding of an event to the event store
@@ -49,9 +53,10 @@ pub enum FindError {
 }
 
 /// State store is the adaptor trait that holds the current state of the system.
-pub trait StateStorage<H>
+pub trait StateStorage<H, V>
 where
-    H: EventGroup + Sized,
+    H: EventGroup + Sized + Clone,
+    V: ViewMode + Sized + Clone,
 {
     /// Apply applies the event to the current state and creates a new state
     ///
@@ -61,7 +66,7 @@ where
     /// change the state
     fn apply(&self, event: H) -> Result<(), ApplyError>;
     /// Gives the full list of stories
-    fn get_stories(&self) -> Option<Vec<RedMaple<H>>>;
+    fn get_stories(&self) -> Option<Vec<RedMaple<H, V>>>;
 }
 
 /// Errors that happened when applying an event to the `StateStore`
