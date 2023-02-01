@@ -11,7 +11,7 @@ use uuid::Uuid;
 ///
 /// let new_id = ID::new();
 ///
-/// assert_eq!(4usize, new_id.uuid().get_version_num())
+/// assert_eq!(4usize, new_id.into_inner().get_version_num())
 ///
 /// ```
 
