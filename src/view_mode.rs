@@ -1,4 +1,4 @@
-//! different views mods for each redmaple
+//! different views mods for each redmaple tree
 
 /// `ViewMode` trait offers a generic way of handling different view of the data
 pub trait ViewMode {

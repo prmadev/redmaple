@@ -1,28 +1,24 @@
-name: Rust
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# rust-clippy is a tool that runs a bunch of lints to catch common
+# mistakes in your Rust code and help improve your Rust code.
+# More details at https://github.com/rust-lang/rust-clippy
+# and https://rust-lang.github.io/rust-clippy/
+
+name: rust-clippy analyze
 
 on:
   push:
     branches: ["main"]
   pull_request:
+    # The branches below must be a subset of the branches above
     branches: ["main"]
-
-env:
-  CARGO_TERM_COLOR: always
+  schedule:
+    - cron: "44 16 * * 4"
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Build
-        run: cargo build --verbose
-
-      - name: Run tests
-        run: cargo test --verbose
-
-      - name: Check if the README is up to date.
-        run: |
-          cargo install cargo-rdme
-          cargo rdme --check
+  check-rust:
+    name: check rust
+    uses: amirography/whirlybird/.github/workflows/reusable.yml@main
