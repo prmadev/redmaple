@@ -7,7 +7,7 @@ use uuid::Uuid;
 /// # Example
 ///
 /// ```rust
-/// use redmaple::redmaple::id::ID;
+/// use redmaple::tree::id::ID;
 ///
 /// let new_id = ID::new();
 ///

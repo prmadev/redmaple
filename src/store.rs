@@ -1,6 +1,6 @@
 //! store module holds the persistence and stateful storage abstractions to work with this crate
 use crate::{
-    redmaple::{event_group::EventGroup, id::ID, RedMaple},
+    tree::{event_group::EventGroup, id::ID, RedMaple},
     view_mode::ViewMode,
 };
 
