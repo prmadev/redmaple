@@ -27,7 +27,7 @@ impl ID {
 
     /// Returns the uuid of this [`ID`].
     #[must_use]
-    pub const fn uuid(&self) -> Uuid {
+    pub const fn into_inner(&self) -> Uuid {
         self.0
     }
 }
