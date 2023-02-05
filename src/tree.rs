@@ -26,10 +26,10 @@ impl<T: EventGroup + Sized + Clone, V: ViewMode + Sized + Clone> RedMaple<T, V> 
     ///
     /// * `view_mode`: sets the view mode of the `RedMaple`
     #[must_use]
-    pub fn new(view_mode: &V, id: &ID) -> Self {
+    pub const fn new(view_mode: V, id: ID) -> Self {
         Self {
-            id: id.clone(),
-            view_mode: view_mode.clone(),
+            id,
+            view_mode,
             events: vec![],
         }
     }
