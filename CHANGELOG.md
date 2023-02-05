@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.2](https://github.com/amirography/redmaple/compare/v0.4.1...v0.4.2) - 2023-02-05
+
+### Other
+- make new tree constant
+
 ## [0.4.1](https://github.com/amirography/redmaple/compare/v0.4.0...v0.4.1) - 2023-02-02
 
 ### Added
