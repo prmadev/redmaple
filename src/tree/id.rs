@@ -31,3 +31,18 @@ impl ID {
         self.0
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn make_a_new_id() {
+        assert!(!ID::new().into_inner().is_nil());
+    }
+
+    #[test]
+    fn check_if_two_are_similar() {
+        assert_ne!(ID::new(), ID::new());
+    }
+}
