@@ -6,13 +6,26 @@ use uuid::Uuid;
 ///
 /// # Example
 ///
+/// For now, the implementation uses UUID v4 as the inner type.
+///
 /// ```rust
 /// use redmaple::tree::id::ID;
 ///
-/// let new_id = ID::new();
+/// assert_eq!(4usize, ID::new().into_inner().get_version_num());
+/// ```
 ///
-/// assert_eq!(4usize, new_id.into_inner().get_version_num())
+/// We should make sure to insure that the `ID::new()` never outputs a nil (all zero) id.
+/// ```
+/// use redmaple::tree::id::ID;
 ///
+/// assert!(!ID::new().into_inner().is_nil());
+/// ```
+///
+/// Of course all ID's should be unique.
+/// ```
+/// use redmaple::tree::id::ID;
+///
+/// assert_ne!(ID::new(), ID::new());
 /// ```
 
 #[derive(Default, Debug, PartialEq, Eq, Clone)]
