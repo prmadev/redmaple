@@ -3,6 +3,9 @@
 //! To make event group this small I actually spent a full day working with different solutions and
 //! trying different ways and pattern for implementing it
 //! so enjoy
+
+use std::time::SystemTime;
+
 use super::id::ID;
 
 /// [`EventGroup`] trait describes the behavior of an event.
@@ -11,8 +14,9 @@ use super::id::ID;
 /// ```
 ///    use redmaple::id::ID;
 ///    use redmaple::event_group::EventGroup;
+///    use std::time::SystemTime;
 ///
-///    struct Eg(ID, ID);
+///    struct Eg(ID, ID, std::time::SystemTime, String);
 ///    impl EventGroup for Eg {
 ///        fn id(&self) -> &ID {
 ///            &self.0
@@ -21,11 +25,18 @@ use super::id::ID;
 ///        fn redmaple_id(&self) -> &ID {
 ///            &self.1
 ///        }
+///        fn time(&self) -> &SystemTime {
+///            &self.2
+///        }
+///
+///        fn has_the_same_contents(&self, other: &Self) -> bool{
+///            self.3 == other.3
+///        }
 ///    }
 ///
 ///    fn id_works() {
-///        let ev1 = Eg(ID::new(), ID::new());
-///        let ev2 = Eg(ID::new(), ID::new());
+///        let ev1 = Eg(ID::new(), ID::new(), SystemTime::now(), String::from(""));
+///        let ev2 = Eg(ID::new(), ID::new(), SystemTime::now(), String::from(""));
 ///        assert_ne!(ev1.id(), ev2.id());
 ///    }
 ///
@@ -36,8 +47,14 @@ pub trait EventGroup {
     fn id(&self) -> &ID;
 
     /// returns the id of the parent redmaple
+    #[must_use]
     fn redmaple_id(&self) -> &ID;
 
-    // TODO: add time event
-    // TODO: compare events
+    /// returns the time of the time that that event happened at
+    #[must_use]
+    fn time(&self) -> &SystemTime;
+
+    /// checks if the event have the same content of another event, but does not check for date
+    /// and id which are probably unique to each event
+    fn has_the_same_contents(&self, other: &Self) -> bool;
 }
