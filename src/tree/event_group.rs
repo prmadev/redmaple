@@ -11,12 +11,15 @@ use super::id::ID;
 /// [`EventGroup`] trait describes the behavior of an event.
 /// Specific implementaiton is not defined here
 ///
+/// # Example
+///
 /// ```
 ///    use redmaple::id::ID;
 ///    use redmaple::event_group::EventGroup;
 ///    use std::time::SystemTime;
 ///
 ///    struct Eg(ID, ID, std::time::SystemTime, String);
+///
 ///    impl EventGroup for Eg {
 ///        fn id(&self) -> &ID {
 ///            &self.0
@@ -25,6 +28,7 @@ use super::id::ID;
 ///        fn redmaple_id(&self) -> &ID {
 ///            &self.1
 ///        }
+///
 ///        fn time(&self) -> &SystemTime {
 ///            &self.2
 ///        }
@@ -37,7 +41,12 @@ use super::id::ID;
 ///    fn id_works() {
 ///        let ev1 = Eg(ID::new(), ID::new(), SystemTime::now(), String::from(""));
 ///        let ev2 = Eg(ID::new(), ID::new(), SystemTime::now(), String::from(""));
+///
+///        // the two instances should not have the same ID
 ///        assert_ne!(ev1.id(), ev2.id());
+///
+///        // however both have the same content: `String::from("")`
+///        assert!(ev1.has_the_same_contents(&ev2))
 ///    }
 ///
 /// ```
