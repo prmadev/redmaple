@@ -19,6 +19,7 @@ pub struct RedMaple<T: EventGroup + Sized + Clone, V: ViewMode + Sized + Clone> 
     id: ID,
     view_mode: V,
     events: Vec<T>,
+    subscribers: Vec<ID>,
 }
 
 impl<T: EventGroup + Sized + Clone, V: ViewMode + Sized + Clone> RedMaple<T, V> {
@@ -31,6 +32,7 @@ impl<T: EventGroup + Sized + Clone, V: ViewMode + Sized + Clone> RedMaple<T, V> 
             id,
             view_mode,
             events: vec![],
+            subscribers: vec![],
         }
     }
 
@@ -50,4 +52,67 @@ impl<T: EventGroup + Sized + Clone, V: ViewMode + Sized + Clone> RedMaple<T, V> 
     pub const fn events(&self) -> &Vec<T> {
         &self.events
     }
+
+    /// Gets a list of subscribers (the subscribers that are listening to any changes happening to
+    /// this item)
+    pub fn subscribers(&self) -> &[ID] {
+        self.subscribers.as_ref()
+    }
+
+    /// sets a list of subscribers. You should prefer `add_subscriber` and `remove_subscriber`
+    /// whereever possible
+    pub fn set_subsribers(&mut self, subscribers: Vec<ID>) {
+        self.subscribers = subscribers;
+    }
+
+    /// adds a subscriber to the list of subscribers to this tree.
+    ///
+    /// * `subscriber`: of type `ID`
+    ///
+    /// # Errors
+    ///
+    /// * `SubscriberError::IsAlreadyInTheList` : means that the ID that you are trying to add is
+    /// alread in the list of subscribers. having two subscriptions to the same ID may mean twice
+    /// the change messages which may mean data corruption
+    pub fn add_subscriber(&mut self, subscriber: ID) -> Result<(), SubscriberError> {
+        if self.subscribers.contains(&subscriber) {
+            return Err(SubscriberError::IsAlreadyInTheList(subscriber));
+        };
+
+        self.subscribers.push(subscriber);
+
+        Ok(())
+    }
+
+    /// adds a subscriber to the list of subscribers to this tree.
+    ///
+    /// * `subscriber`: of type `ID`
+    ///
+    /// # Errors
+    ///
+    /// * `SubscriberError::CouldNotFindSubscriber`: means that the id that is requested by you
+    ///  to be removed is not found in the list of subscribers of this item.
+    ///
+    pub fn remove_subscriber(&mut self, subscriber: &ID) -> Result<(), SubscriberError> {
+        match self.subscribers.iter().position(|x| x == subscriber) {
+            Some(position) => {
+                self.subscribers.swap_remove(position);
+                Ok(())
+            }
+
+            None => Err(SubscriberError::CouldNotFindSubscriber(subscriber.clone())),
+        }
+    }
+}
+
+/// Error type when a dealing with a subscriber
+#[derive(thiserror::Error, Debug)]
+pub enum SubscriberError {
+    /// when subscriber is in the list
+    #[error("Could not find the subscriber you are looking for: {0}")]
+    CouldNotFindSubscriber(ID),
+
+    /// when subscriber is already in the list
+    #[error("ID is already in the subscribers list: {0}")]
+    IsAlreadyInTheList(ID),
 }
