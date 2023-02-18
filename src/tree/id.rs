@@ -1,4 +1,4 @@
-use std::fmt::Debug;
+use std::fmt::{Debug, Display};
 
 use uuid::Uuid;
 
@@ -30,6 +30,12 @@ use uuid::Uuid;
 
 #[derive(Default, Debug, PartialEq, Eq, Clone)]
 pub struct ID(Uuid);
+
+impl Display for ID {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "({})", self.0)
+    }
+}
 
 impl ID {
     /// creats a new instance of the ID
