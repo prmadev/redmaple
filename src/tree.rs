@@ -9,6 +9,9 @@ pub mod event_group;
 /// id module holds the implementation of ID type
 pub mod id;
 
+/// versioned keeps the version of an stateful item
+pub mod versioned;
+
 /// `RedMaple` is essentially a series of related events that form a state
 ///
 /// * `id`: of type ID

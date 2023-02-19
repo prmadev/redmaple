@@ -10,10 +10,10 @@ where
     H: EventGroup + Sized + Clone,
     V: ViewMode + Sized + Clone,
 {
-    /// This function takes an id and checks if the id matches event with the same id.
+    /// This function takes an [`id`] and checks if the [`ID`] matches event with the same [`ID`].
     fn id_exists(&self, id: &ID) -> bool;
 
-    /// Adds an event to the `EventStore`.
+    /// Adds an event to the [`EventStore`].
     ///
     /// # Errors
     ///
