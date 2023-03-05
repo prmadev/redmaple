@@ -1,4 +1,9 @@
 <h1 align="center">
+Red Maple is now moved to a different repository.
+</h1>
+You can find Redmapele it [`here`](https://github.com/amirography/soapberry/tree/main/crates/redmaple).
+
+<h1 align="center">
 Red Maple
 </h1>
 <p align="center">
